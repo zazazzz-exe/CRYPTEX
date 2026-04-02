@@ -4,15 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sci-Fi Animation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <canvas id="matrix"></canvas>
   <div id="three-container"></div>
-  
+
   <main class="panel">
+    <p class="panel-kicker">Neural Interface</p>
     <h1 class="glow">SCI-FI INTERFACE</h1>
+    <p class="panel-sub">Hologram tower online</p>
   </main>
+
+  <section class="hud hud-left">
+    <h2>Telemetry</h2>
+    <div class="hud-row"><span>FPS</span><strong id="metric-fps">0</strong></div>
+    <div class="hud-row"><span>Energy</span><strong id="metric-energy">0%</strong></div>
+    <div class="hud-row"><span>Flux</span><strong id="metric-flux">0.00</strong></div>
+    <div class="hud-row"><span>Particles</span><strong id="metric-particles">0</strong></div>
+    <div class="hud-row"><span>Status</span><strong id="metric-status">SYNCING</strong></div>
+  </section>
+
+  <section class="hud hud-right">
+    <h2>Controls</h2>
+    <p>Drag in center to rotate tower.</p>
+    <p>Matrix feed and particles update live.</p>
+    <div class="power-bar"><span id="power-level"></span></div>
+  </section>
+
+  <section class="hud hud-bottom">
+    <h2>System Log</h2>
+    <p id="system-log">Booting hologram subsystems...</p>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>

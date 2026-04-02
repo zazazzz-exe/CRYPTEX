@@ -1,92 +1,278 @@
-/* Reset everything */
+:root {
+  --hud-bg: rgba(2, 20, 8, 0.82);
+  --hud-border: rgba(0, 255, 0, 0.24);
+  --hud-text: #9bff9b;
+  --hud-accent: #00ff66;
+  --hud-muted: #5fbf7a;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Fullscreen layout */
 html,
 body {
-  background: black;
+  height: 100%;
+  background: #000;
   overflow: hidden;
-
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--hud-text);
 }
 
-/* Make canvas true fullscreen background */
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
+body {
+  font-family: "Share Tech Mono", monospace;
+}
 
+#matrix {
+  position: fixed;
+  inset: 0;
   width: 100vw;
   height: 100vh;
-
-  z-index: 0;
   display: block;
-}
-
-/* Bring UI above canvas */
-.panel,
-h1 {
-  position: relative;
-  z-index: 1;
-}
-
-.panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: fit-content;
-  padding: 2rem 2.5rem 2.25rem;
-  background: rgba(0, 18, 0, 0.88);
-  border: 1px solid rgba(0, 255, 0, 0.28);
-  border-radius: 18px;
-  box-shadow:
-    0 0 0 1px rgba(0, 255, 0, 0.08),
-    0 18px 45px rgba(0, 0, 0, 0.55),
-    0 0 30px rgba(0, 255, 0, 0.1) inset;
-  backdrop-filter: blur(6px);
-}
-
-/* Glow effect */
-.glow {
-  color: #00ff00;
-  text-shadow:
-    0 0 5px #00ff00,
-    0 0 10px #00ff00,
-    0 0 20px #00ff00;
-}
-
-.panel {
-  animation: pulseGlow 3s infinite ease-in-out;
-}
-
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 20px rgba(0,255,0,0.1); }
-  50% { box-shadow: 0 0 40px rgba(0,255,0,0.25); }
-  100% { box-shadow: 0 0 20px rgba(0,255,0,0.1); }
+  z-index: 0;
 }
 
 #three-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0; /* behind panel */
+  inset: 0;
+  z-index: 1;
+}
+
+#three-container::before {
+  content: "";
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  width: min(56vmin, 520px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 22px;
+  border: 1px solid rgba(0, 255, 128, 0.22);
+  background: radial-gradient(circle at center, rgba(0, 255, 128, 0.15), rgba(0, 0, 0, 0.78) 68%);
+  box-shadow:
+    inset 0 0 45px rgba(0, 255, 128, 0.12),
+    0 0 35px rgba(0, 255, 128, 0.18);
+  pointer-events: none;
+}
+
+#three-container::after {
+  content: "";
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  width: min(60vmin, 560px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 255, 90, 0.2);
+  animation: orbitPulse 10s linear infinite;
+  pointer-events: none;
+}
+
+#three-container canvas {
+  position: relative;
+  z-index: 2;
 }
 
 .panel {
   position: fixed;
-  top: 6vh;
+  top: 4vh;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2;
+  z-index: 5;
+  min-width: min(92vw, 520px);
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  border: 1px solid var(--hud-border);
+  background: linear-gradient(135deg, rgba(0, 34, 12, 0.95), rgba(0, 8, 2, 0.76));
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 85, 0.1),
+    0 0 28px rgba(0, 255, 85, 0.18),
+    inset 0 0 20px rgba(0, 255, 85, 0.08);
+  text-align: center;
+}
+
+.panel-kicker {
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 0.28em;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  color: var(--hud-muted);
+  margin-bottom: 0.28rem;
+}
+
+.glow {
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(1.25rem, 2vw, 1.85rem);
+  letter-spacing: 0.1em;
+  color: var(--hud-accent);
+  text-shadow:
+    0 0 7px rgba(0, 255, 90, 0.95),
+    0 0 18px rgba(0, 255, 90, 0.8),
+    0 0 34px rgba(0, 255, 90, 0.55);
+}
+
+.panel-sub {
+  color: #84dba6;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  margin-top: 0.35rem;
+}
+
+.hud {
+  position: fixed;
+  z-index: 5;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 70, 0.08),
+    inset 0 0 16px rgba(0, 255, 85, 0.06);
+}
+
+.hud h2 {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.17em;
+  color: #82f8b0;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+}
+
+.hud-left {
+  top: 22vh;
+  left: 2.2vw;
+  min-width: 200px;
+}
+
+.hud-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgba(0, 255, 80, 0.12);
+  font-size: 0.86rem;
+}
+
+.hud-row span {
+  color: #6ec791;
+}
+
+.hud-row strong {
+  color: #b8ffd0;
+  font-weight: 700;
+}
+
+.hud-right {
+  right: 2.2vw;
+  top: 22vh;
+  width: min(260px, 42vw);
+}
+
+.hud-right p {
+  color: #84dba6;
+  line-height: 1.4;
+  font-size: 0.82rem;
+  margin-bottom: 0.45rem;
+}
+
+.power-bar {
+  margin-top: 0.55rem;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 255, 100, 0.25);
+  overflow: hidden;
+  background: rgba(0, 40, 18, 0.5);
+}
+
+.power-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #00aa44, #00ff7a, #a5ffc8);
+  box-shadow: 0 0 14px rgba(0, 255, 100, 0.45);
+}
+
+.hud-bottom {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 3.2vh;
+  min-width: min(92vw, 680px);
+  text-align: center;
+}
+
+#system-log {
+  color: #a9ffc8;
+  font-size: 0.86rem;
+  letter-spacing: 0.04em;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(180deg, transparent 0, transparent 2px, rgba(0, 0, 0, 0.08) 3px, rgba(0, 0, 0, 0.08) 4px);
+  pointer-events: none;
+  z-index: 8;
+}
+
+@keyframes orbitPulse {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.96);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.02);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(0.96);
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 900px) {
+  .hud-right {
+    top: auto;
+    bottom: 13vh;
+    right: 2vw;
+  }
+
+  .hud-left {
+    top: auto;
+    bottom: 13vh;
+    left: 2vw;
+  }
+}
+
+@media (max-width: 620px) {
+  .panel {
+    min-width: 92vw;
+    top: 2vh;
+  }
+
+  .hud-left,
+  .hud-right {
+    width: 44vw;
+    min-width: 0;
+    padding: 0.7rem;
+  }
+
+  .hud-row {
+    font-size: 0.74rem;
+  }
+
+  .hud-bottom {
+    bottom: 2vh;
+    min-width: 94vw;
+  }
+
+  #system-log {
+    font-size: 0.72rem;
+  }
 }
