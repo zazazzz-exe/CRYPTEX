@@ -302,8 +302,9 @@ body {
 
 #radar-canvas {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  aspect-ratio: 1;
   border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--hud-accent) 28%, transparent);
   background: radial-gradient(circle at center, rgba(0, 12, 4, 0.85) 0%, rgba(0, 0, 0, 0.9) 75%);
