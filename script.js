@@ -627,15 +627,34 @@ cameraButtons.forEach((button) => {
   });
 });
 
+function setPresentationMode(enabled) {
+  presentationState.active = enabled;
+  document.body.classList.toggle("presentation-mode", enabled);
+
+  if (presentationToggle) {
+    presentationToggle.classList.toggle("active", enabled);
+  }
+
+  if (enabled) {
+    pushLog("Presentation mode enabled. Press ESC to exit.");
+  } else {
+    pushLog("Presentation mode disabled.");
+  }
+
+  playSound("presentationToggle");
+}
+
 if (presentationToggle) {
   presentationToggle.addEventListener("click", () => {
-    presentationState.active = !presentationState.active;
-    document.body.classList.toggle("presentation-mode", presentationState.active);
-    presentationToggle.classList.toggle("active", presentationState.active);
-    pushLog(presentationState.active ? "Presentation mode enabled." : "Presentation mode disabled.");
-    playSound("presentationToggle");
+    setPresentationMode(!presentationState.active);
   });
 }
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && presentationState.active) {
+    setPresentationMode(false);
+  }
+});
 
 function drawRadar(timeMs) {
   if (!radarCtx || !radarCanvas) {
