@@ -195,7 +195,7 @@ body {
 }
 
 .hud-left {
-  top: 22vh;
+  top: 16vh;
   left: 2.2vw;
   min-width: 220px;
 }
@@ -220,7 +220,7 @@ body {
 
 .hud-right {
   right: 2.2vw;
-  top: 22vh;
+  top: 12vh;
   width: min(320px, 48vw);
 }
 
@@ -336,7 +336,7 @@ body.audio-reactive-on .audio-reactive-meter {
 
 .hud-radar {
   left: 2.2vw;
-  top: 62vh;
+  top: 56vh;
   width: 220px;
   padding: 0.8rem;
 }
